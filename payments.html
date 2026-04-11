@@ -298,11 +298,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 .tx-row:hover{background:var(--black-60);}
 
 .tx-who{display:flex;gap:12px;align-items:flex-start;width:190px;flex-shrink:0;}
-.tx-icon{
-  width:20px;height:20px;border-radius:4px;
-  overflow:hidden;flex-shrink:0;margin-top:2px;
-}
-.tx-icon img{width:20px;height:20px;object-fit:contain;}
+.tx-icon-wrap{display:flex;align-items:center;flex-shrink:0;}
+.tx-icon{width:20px;height:20px;object-fit:contain;border-radius:5px;flex-shrink:0;display:block;}
 .tx-info{display:flex;flex-direction:column;}
 .tx-name{
   font-size:14px;font-weight:500;color:var(--black-500);
@@ -574,8 +571,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- Bank transfer +$1,000 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/8e3787f2-9ef5-4145-849c-71a6b1e65c5a" alt="swift" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/mastercard.svg" alt="mastercard"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">Bank transfer</div>
@@ -589,8 +586,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- YouTube Reports +$32,115 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/6306bf70-6b8d-41c4-bea2-dd3db3b3f662" alt="youtube" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/youtube-reports.svg" alt="youtube"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">YouTube Reports</div>
@@ -606,8 +603,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- Sophia -$100 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/e2e077f2-f333-41f2-9c55-35deaff98730" alt="mastercard" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/mastercard.svg" alt="mastercard"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">Sophia Richardson</div>
@@ -621,8 +618,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- Sophia -$1,300 (failed/red) -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/e2e077f2-f333-41f2-9c55-35deaff98730" alt="mastercard" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/mastercard.svg" alt="mastercard"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">Sophia Richardson</div>
@@ -643,8 +640,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- Joana Smith -$20 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/302c7a3d-0fea-43e6-821c-585f3871e4d3" alt="wise" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/wise.svg" alt="wise"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">Joana Smith</div>
@@ -660,8 +657,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- Konstantin +$100,459 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/2540f17c-8de4-461a-b95d-b900e3818281" alt="visa" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/visa.svg" alt="visa"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">Konstantin Konstantinopolskivskiy</div>
@@ -675,8 +672,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- James Mitchell -$100 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/a4eae781-9bfc-4009-ab97-a484744181d5" alt="paypal" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/paypal.svg" alt="paypal"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">James Mitchelll</div>
@@ -690,8 +687,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
           <!-- Sophia -$200 -->
           <div class="tx-row">
             <div class="tx-who">
-              <div class="tx-icon">
-                <img src="https://www.figma.com/api/mcp/asset/e2e077f2-f333-41f2-9c55-35deaff98730" alt="mastercard" onerror="this.style.background='#E1E5F0'"/>
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/mastercard.svg" alt="mastercard"/>
               </div>
               <div class="tx-info">
                 <div class="tx-name">Sophia Richardson</div>
