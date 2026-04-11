@@ -37,35 +37,44 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 /* ── HEADER ── */
 .header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  height:70px;background:#fff;
+  background:#fff;
   border-bottom:1px solid var(--black-90);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;
+  padding:12px 24px;
 }
 .header-logo{
-  display:flex;align-items:center;gap:24px;
+  display:flex;align-items:center;gap:24px;flex-shrink:0;
   background:#fff;border:1px solid var(--black-100);
   border-radius:12px;padding:12px 16px;width:240px;
 }
-.header-logo img.milx-logo{height:22px;}
-.header-logo-arrow{width:24px;height:18px;opacity:.5;}
+.header-logo-inner{
+  flex:1;min-width:0;
+  display:flex;align-items:center;
+}
+.header-logo-inner img{height:22px;display:block;}
+.header-logo-arrow{width:24px;height:18px;flex-shrink:0;display:block;}
 
 .header-right{display:flex;align-items:center;gap:16px;}
-.header-icons{display:flex;gap:0;padding-right:24px;}
-.icon-btn{padding:10px;border-radius:70px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.icon-btn svg{width:20px;height:20px;color:var(--black-500);}
+.header-icons{display:flex;align-items:center;gap:0;padding-right:24px;}
+.icon-btn{
+  padding:10px;border-radius:70px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:none;
+}
+.icon-btn img{width:20px;height:20px;display:block;}
 .wallet-widget{
   background:var(--black-30);border:1px solid var(--black-90);
   border-radius:var(--r-md);padding:10px 16px 6px;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;flex-shrink:0;
 }
-.wallet-label{font-size:10px;font-weight:600;color:var(--black-400);text-transform:uppercase;letter-spacing:.8px;line-height:1;}
-.wallet-amount{font-size:14px;font-weight:600;color:var(--black-500);line-height:24px;}
+.wallet-label{font-size:10px;font-weight:600;color:var(--black-400);text-transform:uppercase;letter-spacing:.8px;line-height:normal;white-space:nowrap;}
+.wallet-amount{font-size:14px;font-weight:600;color:var(--black-500);line-height:24px;white-space:nowrap;}
 .avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;}
 .avatar img{width:100%;height:100%;object-fit:cover;}
 
 /* ── LAYOUT ── */
 .layout{display:flex;margin-top:70px;min-height:calc(100vh - 70px);}
+/* header height compensated dynamically via JS if needed */
 
 /* ── SIDEBAR MENU ── */
 .sidebar{
@@ -304,28 +313,18 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 <!-- ── HEADER ── -->
 <header class="header">
   <div class="header-logo">
-    <!-- MilX logo SVG -->
-    <svg class="milx-logo" width="80" height="22" viewBox="0 0 80 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text x="0" y="18" font-family="Mulish,sans-serif" font-weight="900" font-size="20" fill="#141414">milX</text>
-    </svg>
-    <!-- Arrow up/down -->
-    <svg class="header-logo-arrow" width="24" height="18" viewBox="0 0 24 18" fill="none">
-      <path d="M7 5l5-4 5 4M7 13l5 4 5-4" stroke="#32353D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <div class="header-logo-inner">
+      <img src="icons/header-logo.svg" alt="milX"/>
+    </div>
+    <img class="header-logo-arrow" src="icons/header-arrows.svg" alt=""/>
   </div>
   <div class="header-right">
     <div class="header-icons">
       <button class="icon-btn">
-        <!-- Bell -->
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M10 2a6 6 0 00-6 6v3l-1.5 2.5h15L16 11V8a6 6 0 00-6-6zm0 0v-1m0 17a2 2 0 01-2-2h4a2 2 0 01-2 2z"/>
-        </svg>
+        <img src="icons/header-bell.svg" alt="notifications"/>
       </button>
       <button class="icon-btn">
-        <!-- Chat -->
-        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 4a2 2 0 012-2h12a2 2 0 012 2v9a2 2 0 01-2 2H6l-4 3V4z"/>
-        </svg>
+        <img src="icons/header-chat.svg" alt="chat"/>
       </button>
     </div>
     <div class="wallet-widget">
@@ -333,7 +332,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
       <span class="wallet-amount">$36,819.12</span>
     </div>
     <div class="avatar">
-      <img src="https://www.figma.com/api/mcp/asset/c9d22ff5-26b5-4028-b7ce-cb63b9934199" alt="avatar"/>
+      <img src="icons/header-avatar.png" alt="avatar"/>
     </div>
   </div>
 </header>

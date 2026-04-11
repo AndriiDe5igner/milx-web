@@ -35,35 +35,44 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 /* ── HEADER ── */
 .header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  height:70px;background:#fff;
+  background:#fff;
   border-bottom:1px solid var(--black-90);
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 24px;
+  padding:12px 24px;
 }
 .header-logo{
-  display:flex;align-items:center;gap:24px;
+  display:flex;align-items:center;gap:24px;flex-shrink:0;
   background:#fff;border:1px solid var(--black-100);
   border-radius:12px;padding:12px 16px;width:240px;
 }
-.header-logo img.milx-logo{height:22px;}
-.header-logo-arrow{width:24px;height:18px;opacity:.5;}
+.header-logo-inner{
+  flex:1;min-width:0;
+  display:flex;align-items:center;
+}
+.header-logo-inner img{height:22px;display:block;}
+.header-logo-arrow{width:24px;height:18px;flex-shrink:0;display:block;}
 
 .header-right{display:flex;align-items:center;gap:16px;}
-.header-icons{display:flex;gap:0;padding-right:24px;border-right:1px solid transparent;}
-.icon-btn{padding:10px;border-radius:70px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.icon-btn svg{width:20px;height:20px;color:var(--black-500);}
+.header-icons{display:flex;align-items:center;gap:0;padding-right:24px;}
+.icon-btn{
+  padding:10px;border-radius:70px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:none;
+}
+.icon-btn img{width:20px;height:20px;display:block;}
 .wallet-widget{
   background:var(--black-30);border:1px solid var(--black-90);
   border-radius:var(--r-md);padding:10px 16px 6px;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;flex-shrink:0;
 }
-.wallet-label{font-size:10px;font-weight:600;color:var(--black-400);text-transform:uppercase;letter-spacing:.8px;line-height:1;}
-.wallet-amount{font-size:14px;font-weight:600;color:var(--black-500);line-height:24px;}
+.wallet-label{font-size:10px;font-weight:600;color:var(--black-400);text-transform:uppercase;letter-spacing:.8px;line-height:normal;white-space:nowrap;}
+.wallet-amount{font-size:14px;font-weight:600;color:var(--black-500);line-height:24px;white-space:nowrap;}
 .avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;}
 .avatar img{width:100%;height:100%;object-fit:cover;}
 
 /* ── LAYOUT ── */
 .layout{display:flex;margin-top:70px;min-height:calc(100vh - 70px);}
+/* header height compensated dynamically via JS if needed */
 
 /* ── SIDEBAR MENU ── */
 .sidebar{
@@ -335,37 +344,26 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 <!-- ── HEADER ── -->
 <header class="header">
   <div class="header-logo">
-    <!-- MilX logo text -->
-    <svg width="94" height="22" viewBox="0 0 94 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <text y="18" font-family="'Mulish',sans-serif" font-weight="900" font-size="20" fill="#32353D">MilX</text>
-    </svg>
-    <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-      <rect x="2" y="2" width="20" height="14" rx="2" stroke="#CFD4E5" stroke-width="1.5"/>
-      <line x1="6" y1="9" x2="18" y2="9" stroke="#CFD4E5" stroke-width="1.5"/>
-    </svg>
+    <div class="header-logo-inner">
+      <img src="icons/header-logo.svg" alt="milX"/>
+    </div>
+    <img class="header-logo-arrow" src="icons/header-arrows.svg" alt=""/>
   </div>
   <div class="header-right">
-    <div class="header-icons" style="display:flex;gap:4px;">
-      <!-- Bell -->
-      <div class="icon-btn">
-        <svg viewBox="0 0 20 20" fill="none" stroke="#32353D" stroke-width="1.5">
-          <path d="M10 2a6 6 0 0 0-6 6v3l-1.5 2.5h15L16 11V8a6 6 0 0 0-6-6Z" stroke-linecap="round"/>
-          <path d="M8.5 16.5a1.5 1.5 0 0 0 3 0" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <!-- Chat -->
-      <div class="icon-btn">
-        <svg viewBox="0 0 20 20" fill="none" stroke="#32353D" stroke-width="1.5">
-          <path d="M3 4h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6l-4 3V5a1 1 0 0 1 1-1Z" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
+    <div class="header-icons">
+      <button class="icon-btn">
+        <img src="icons/header-bell.svg" alt="notifications"/>
+      </button>
+      <button class="icon-btn">
+        <img src="icons/header-chat.svg" alt="chat"/>
+      </button>
     </div>
     <div class="wallet-widget">
-      <span class="wallet-label">My wallet</span>
+      <span class="wallet-label">My Funds</span>
       <span class="wallet-amount">$36,819.12</span>
     </div>
     <div class="avatar">
-      <img src="https://www.figma.com/api/mcp/asset/aa48eebc-2839-49c6-bb58-4ad421a4a7be" alt="avatar" onerror="this.style.background='#E1E5F0';this.src='';"/>
+      <img src="icons/header-avatar.png" alt="avatar"/>
     </div>
   </div>
 </header>
