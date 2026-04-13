@@ -9,6 +9,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100vh;-webkit-font-smoothing:antialiased;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 /* ── TOKENS ── */
 :root{
@@ -123,7 +124,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 .menu-version span:last-child{color:var(--black-500);}
 
 /* ── MAIN CONTENT ── */
-.main{margin-left:264px;flex:1;padding:24px 24px 24px 0;min-width:0;max-width:841px;}
+.main{margin-left:264px;flex:1;padding:24px 24px 24px 0;min-width:0;max-width:841px;animation:fadeIn .3s ease;}
 
 /* ── BALANCE BLOCK ── */
 .balance-block{
@@ -153,7 +154,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
   white-space:nowrap;
 }
 
-.balance-actions{display:flex;gap:12px;margin-top:28px;}
+.balance-actions{display:flex;gap:12px;margin-top:40px;}
 
 .btn-send{
   background:var(--black-600);color:#fff;
@@ -185,51 +186,63 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 .balance-details{
   display:none;
   grid-template-columns:1fr 1fr;
-  gap:16px 24px;
+  gap:20px 16px;
   margin-top:20px;
-  padding-top:20px;
+  padding-top:8px;
   border-top:1px solid var(--black-90);
 }
 .balance-left.is-open .balance-details{display:grid;}
 
-.fund-item{}
-.fund-amount-row{display:flex;align-items:center;gap:6px;margin-bottom:2px;}
-.fund-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.fund-amount{font-size:14px;font-weight:600;color:var(--black-600);}
-.fund-name{font-size:14px;font-weight:600;color:var(--black-500);margin-bottom:2px;}
-.fund-desc{font-size:11px;color:var(--black-400);line-height:15px;}
+.fund-item{display:flex;gap:10px;align-items:flex-start;}
+.fund-dot-wrap{width:10px;flex-shrink:0;padding-top:7px;}
+.fund-dot{width:10px;height:10px;border-radius:50%;display:block;}
+.fund-body{display:flex;flex-direction:column;gap:4px;}
+.fund-amount{font-family:'Mulish',sans-serif;font-size:18px;font-weight:900;line-height:24px;color:var(--black-600);}
+.fund-name{font-size:14px;font-weight:500;color:var(--black-500);line-height:24px;}
+.fund-desc{font-size:10px;color:var(--black-400);line-height:16px;}
 
-/* ── ACTIVE FUNDS WIDGET ── */
+/* ── ACTIVE FUNDS BANNER (right widget) ── */
 .active-funds-widget{
-  background:var(--black-30);
-  border:1px solid #fff;
   border-radius:var(--r-lg);
   width:300px;flex-shrink:0;
-  padding:24px;
+  padding:20px 24px 24px;
   display:flex;flex-direction:column;justify-content:space-between;
-  min-height:216px;
-  position:relative;
   align-self:stretch;
+  position:relative;
+  overflow:hidden;
 }
-
-.active-funds-details{
-  position:absolute;top:11.5px;right:7px;
-  font-family:'Gilroy',sans-serif;font-size:12px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.48px;
-  color:var(--black-600);line-height:16px;
-  padding:8px 16px;cursor:pointer;
+.active-funds-bg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  display:block;pointer-events:none;
 }
-
-.balance-circle{width:88px;height:88px;}
-.balance-circle img{width:100%;height:100%;}
-
+.active-funds-content{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;gap:8px;
+}
 .active-funds-title{
   font-family:'Mulish',sans-serif;font-weight:1000;
-  font-size:18px;line-height:24px;
-  text-transform:uppercase;color:var(--black-600);
+  font-size:24px;line-height:27px;
+  text-transform:uppercase;color:#fff;
 }
 .active-funds-sub{
-  font-size:14px;font-weight:400;color:var(--black-500);line-height:24px;
+  font-size:12px;font-weight:400;color:#fff;line-height:16px;opacity:.9;
+}
+.active-funds-btn{
+  position:relative;z-index:1;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:115px;height:40px;
+  padding:0 20px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,.7);
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(17.5px);
+  -webkit-backdrop-filter:blur(17.5px);
+  cursor:pointer;
+  font-size:12px;font-weight:700;color:#fff;
+  text-transform:uppercase;letter-spacing:.48px;
+  white-space:nowrap;
 }
 
 /* ── LAST PAYMENTS TABLE ── */
@@ -314,17 +327,17 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 <header class="header">
   <div class="header-logo">
     <div class="header-logo-inner">
-      <img src="icons/header-logo.svg" alt="milX"/>
+      <img src="source/icons/header-logo.svg" alt="milX"/>
     </div>
-    <img class="header-logo-arrow" src="icons/header-arrows.svg" alt=""/>
+    <img class="header-logo-arrow" src="source/icons/header-arrows.svg" alt=""/>
   </div>
   <div class="header-right">
     <div class="header-icons">
       <button class="icon-btn">
-        <img src="icons/header-bell.svg" alt="notifications"/>
+        <img src="source/icons/header-bell.svg" alt="notifications"/>
       </button>
       <button class="icon-btn">
-        <img src="icons/header-chat.svg" alt="chat"/>
+        <img src="source/icons/header-chat.svg" alt="chat"/>
       </button>
     </div>
     <div class="wallet-widget">
@@ -332,7 +345,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
       <span class="wallet-amount">$36,819.12</span>
     </div>
     <div class="avatar">
-      <img src="icons/header-avatar.png" alt="avatar"/>
+      <img src="source/icons/header-avatar.png" alt="avatar"/>
     </div>
   </div>
 </header>
@@ -345,22 +358,22 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
       <nav class="menu-list">
         <!-- Home — active -->
         <a href="index.html" class="menu-item active" style="text-decoration:none;">
-          <img src="icons/icon-home.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-home.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Home
         </a>
         <!-- Active Funds -->
         <a href="active-funds.html" class="menu-item" style="text-decoration:none;">
-          <img src="icons/icon-active-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-active-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Active Funds
         </a>
         <!-- Advanced Funds -->
         <a href="#" class="menu-item" style="text-decoration:none;">
-          <img src="icons/icon-advanced-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-advanced-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Advanced Funds
         </a>
         <!-- Payments -->
         <a href="payments.html" class="menu-item" style="text-decoration:none;">
-          <img src="icons/icon-payments.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-payments.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Payments
         </a>
       </nav>
@@ -394,7 +407,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
       <div class="balance-left">
         <span class="balance-label">Available Funds</span>
         <div>
-          <div class="balance-amount">$36,819.12</div>
+          <div class="balance-amount">$36,000.00</div>
           <div class="balance-actions">
             <button class="btn-send">Send</button>
             <button class="btn-receive">Receive</button>
@@ -409,50 +422,48 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
         <!-- Expanded fund details -->
         <div class="balance-details">
           <div class="fund-item">
-            <div class="fund-amount-row">
-              <span class="fund-dot" style="background:#03C4A1;"></span>
-              <span class="fund-amount">$0.00</span>
+            <div class="fund-dot-wrap"><span class="fund-dot" style="background:#45B7B7;"></span></div>
+            <div class="fund-body">
+              <div class="fund-amount">$0.00</div>
+              <div class="fund-name">Approved Funds</div>
+              <div class="fund-desc">This is your confirmed revenue from YouTube and other sources, based on official platform reports.</div>
             </div>
-            <div class="fund-name">Approved Funds</div>
-            <div class="fund-desc">This is your confirmed revenue from YouTube and other sources, based on official platform reports.</div>
           </div>
           <div class="fund-item">
-            <div class="fund-amount-row">
-              <span class="fund-dot" style="background:#03AD47;"></span>
-              <span class="fund-amount">$0.00</span>
+            <div class="fund-dot-wrap"><span class="fund-dot" style="background:#B2F86C;"></span></div>
+            <div class="fund-body">
+              <div class="fund-amount">$0.00</div>
+              <div class="fund-name">Advance Funds</div>
+              <div class="fund-desc">Withdraw income in advance before YouTube pays you. Yes, you can get it now!</div>
             </div>
-            <div class="fund-name">Advance Funds</div>
-            <div class="fund-desc">Withdraw income in advance before YouTube pays you. Yes, you can get it now!</div>
           </div>
           <div class="fund-item">
-            <div class="fund-amount-row">
-              <span class="fund-dot" style="background:#FF8411;"></span>
-              <span class="fund-amount">$0.00</span>
+            <div class="fund-dot-wrap"><span class="fund-dot" style="background:#FF8411;"></span></div>
+            <div class="fund-body">
+              <div class="fund-amount">$0.00</div>
+              <div class="fund-name">Active Funds</div>
+              <div class="fund-desc">This is our investment to help you develop your content creation business and generate even more revenue.</div>
             </div>
-            <div class="fund-name">Active Funds</div>
-            <div class="fund-desc">This is our investment to help you develop your content creation business and generate even more revenue.</div>
           </div>
           <div class="fund-item">
-            <div class="fund-amount-row">
-              <span class="fund-dot" style="background:#9747FF;"></span>
-              <span class="fund-amount">$0.00</span>
+            <div class="fund-dot-wrap"><span class="fund-dot" style="background:#D46CF8;"></span></div>
+            <div class="fund-body">
+              <div class="fund-amount">$0.00</div>
+              <div class="fund-name">Royalty Funds</div>
+              <div class="fund-desc">Get upfront capital from content licensing and earn more from fellow creators' royalties on Royalty platform.</div>
             </div>
-            <div class="fund-name">Royalty Funds</div>
-            <div class="fund-desc">Get upfront capital from content licensing and earn more from fellow creators' royalties on Royalty platform.</div>
           </div>
         </div>
       </div>
 
-      <!-- Right: Active Funds widget -->
+      <!-- Right: Active Funds Banner -->
       <div class="active-funds-widget">
-        <span class="active-funds-details">DETAILS</span>
-        <div class="balance-circle">
-          <img src="https://www.figma.com/api/mcp/asset/28c76339-6ecb-4ba9-9a90-05ebeb9690ed" alt="balance circle"/>
+        <img class="active-funds-bg" src="source/icons/banner-bg.png" alt=""/>
+        <div class="active-funds-content">
+          <div class="active-funds-title">Extra Money<br>is Easy!</div>
+          <div class="active-funds-sub">Take the first step to<br>financial flexibility!</div>
         </div>
-        <div>
-          <div class="active-funds-title">Active Funds</div>
-          <div class="active-funds-sub">Use the funds right now!</div>
-        </div>
+        <button class="active-funds-btn">Get funds</button>
       </div>
     </div>
 

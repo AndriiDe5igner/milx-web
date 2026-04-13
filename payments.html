@@ -8,7 +8,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800;900;1000&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100vh;-webkit-font-smoothing:antialiased;}
+body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 /* ── TOKENS ── */
 :root{
@@ -71,8 +72,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 .avatar img{width:100%;height:100%;object-fit:cover;}
 
 /* ── LAYOUT ── */
-.layout{display:flex;margin-top:70px;min-height:calc(100vh - 70px);}
-/* header height compensated dynamically via JS if needed */
+.layout{display:flex;margin-top:70px;height:calc(100vh - 70px);overflow:hidden;}
 
 /* ── SIDEBAR MENU ── */
 .sidebar{
@@ -123,12 +123,13 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 .menu-version span:last-child{color:var(--black-500);}
 
 /* ── MAIN CONTENT ── */
-.main{margin-left:264px;flex:1;padding:24px 24px 24px 0;min-width:0;}
+.main{margin-left:264px;flex:1;padding:24px 24px 20px 0;min-width:0;animation:fadeIn .3s ease;
+  display:flex;flex-direction:column;height:calc(100vh - 70px);overflow:hidden;}
 .page-title{
   font-family:'Mulish',sans-serif;font-weight:1000;font-size:24px;
   color:var(--black-500);letter-spacing:.24px;text-transform:uppercase;
   line-height:32px;margin-bottom:16px;
-  padding-left:24px;
+  padding-left:24px;flex-shrink:0;
 }
 
 /* ── PAYMENTS PANEL ── */
@@ -137,7 +138,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
   border-radius:var(--r-xl);
   display:flex;gap:16px;
   padding:8px 16px 8px 8px;
-  height:646px;
+  flex:1;min-height:0;
 }
 
 /* ── PAYEE LIST ── */
@@ -190,9 +191,10 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
   cursor:pointer;transition:background .15s;
   position:relative;
 }
-.payee-card:hover{background:var(--black-60);}
-.payee-card-icon{width:40px;height:40px;flex-shrink:0;border-radius:8px;overflow:hidden;}
-.payee-card-icon img{width:40px;height:40px;object-fit:contain;}
+.payee-card:hover{background:var(--black-80);}
+.payee-card.selected{background:var(--black-80);}
+.payee-card-icon{width:40px;height:40px;flex-shrink:0;}
+.payee-card-icon img{width:40px;height:40px;display:block;}
 .payee-card-info{flex:1;min-width:0;}
 .payee-card-name{
   font-size:14px;font-weight:500;color:var(--black-500);
@@ -202,16 +204,22 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
   font-size:12px;color:var(--black-400);line-height:16px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.payee-card.invalid .payee-card-name,.payee-card.invalid .payee-card-sub{color:var(--black-300);}
+.payee-card.invalid .payee-card-name,
+.payee-card.invalid .payee-card-sub,
+.payee-card.invalid .payee-card-not-valid{color:var(--black-300);}
 .payee-card.invalid .payee-card-icon{opacity:.5;}
 .payee-card-name-row{display:flex;align-items:center;gap:4px;}
-.payee-card-not-valid{font-size:14px;color:var(--black-300);}
+.payee-card-not-valid{font-size:14px;font-weight:400;color:var(--black-300);}
+.payee-card-star{
+  flex-shrink:0;align-self:flex-start;
+  display:flex;align-items:center;color:var(--black-300);
+}
+.payee-card-star svg{width:16px;height:16px;display:block;}
 .warning-badge{
-  position:absolute;bottom:-6px;left:41px;
+  position:absolute;bottom:-4px;right:-4px;
   background:#fff;border-radius:21px;padding:2px;
   display:flex;align-items:center;
 }
-.warning-badge img{width:14px;height:14px;}
 
 /* Scrollbar in payee list */
 .payee-scroll-track{
@@ -342,17 +350,17 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
 <header class="header">
   <div class="header-logo">
     <div class="header-logo-inner">
-      <img src="icons/header-logo.svg" alt="milX"/>
+      <img src="source/icons/header-logo.svg" alt="milX"/>
     </div>
-    <img class="header-logo-arrow" src="icons/header-arrows.svg" alt=""/>
+    <img class="header-logo-arrow" src="source/icons/header-arrows.svg" alt=""/>
   </div>
   <div class="header-right">
     <div class="header-icons">
       <button class="icon-btn">
-        <img src="icons/header-bell.svg" alt="notifications"/>
+        <img src="source/icons/header-bell.svg" alt="notifications"/>
       </button>
       <button class="icon-btn">
-        <img src="icons/header-chat.svg" alt="chat"/>
+        <img src="source/icons/header-chat.svg" alt="chat"/>
       </button>
     </div>
     <div class="wallet-widget">
@@ -360,7 +368,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
       <span class="wallet-amount">$36,819.12</span>
     </div>
     <div class="avatar">
-      <img src="icons/header-avatar.png" alt="avatar"/>
+      <img src="source/icons/header-avatar.png" alt="avatar"/>
     </div>
   </div>
 </header>
@@ -374,22 +382,22 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
       <nav class="menu-list">
         <!-- Home -->
         <a href="index.html" class="menu-item" style="text-decoration:none;">
-          <img src="icons/icon-home.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-home.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Home
         </a>
         <!-- Active Funds -->
         <a href="active-funds.html" class="menu-item" style="text-decoration:none;">
-          <img src="icons/icon-active-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-active-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Active Funds
         </a>
         <!-- Advanced Funds -->
         <a href="#" class="menu-item" style="text-decoration:none;">
-          <img src="icons/icon-advanced-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-advanced-funds.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Advanced Funds
         </a>
         <!-- Payments (active) -->
         <a href="index.html" class="menu-item active" style="text-decoration:none;">
-          <img src="icons/icon-payments.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
+          <img src="source/icons/icon-payments.svg" width="18" height="18" alt="" style="flex-shrink:0;"/>
           Payments
         </a>
       </nav>
@@ -427,7 +435,6 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
             <!-- Dropdown All -->
             <div class="payee-dropdown">
               <div class="payee-dropdown-icon">
-                <img src="https://www.figma.com/api/mcp/asset/2747453a-9e1c-4674-9a5e-10ec43c13eed" alt="all" onerror="this.style.display='none'"/>
               </div>
               <span class="payee-dropdown-text">All payments</span>
               <div class="payee-dropdown-btn">
@@ -438,83 +445,108 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100
             <!-- James Mitchell / PayPal -->
             <div class="payee-card">
               <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/6b29c9c6-2d2f-42c3-b46b-c14f39176b7f" alt="paypal" onerror="this.style.background='#E1E5F0'"/>
+                <img src="source/icons/paypal.svg" alt="paypal"/>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name">James Mitchell</div>
                 <div class="payee-card-sub">podo****@air.io</div>
+              </div>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
               </div>
             </div>
 
             <!-- YouTube Reports -->
             <div class="payee-card">
               <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/16d44cc1-a6df-4534-a715-51a03d12d865" alt="youtube" onerror="this.style.background='#E1E5F0'"/>
+                <img src="source/icons/youtube-reports.svg" alt="youtube"/>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name">YouTube Reports</div>
                 <div class="payee-card-sub">Beaver VLOG, Beaver games, Fox_foxy_splash</div>
+              </div>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
               </div>
             </div>
 
             <!-- Sophia Richardson / Mastercard -->
             <div class="payee-card">
               <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/7b13e13f-73c8-4210-83b8-118e85f16a64" alt="mastercard" onerror="this.style.background='#E1E5F0'"/>
+                <img src="source/icons/mastercard.svg" alt="mastercard"/>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name">Sophia Richardson</div>
                 <div class="payee-card-sub">2983****1663</div>
               </div>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
+              </div>
             </div>
 
-            <!-- Emily Carter / P2P (warning) -->
-            <div class="payee-card" style="position:relative;">
-              <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/7b13e13f-73c8-4210-83b8-118e85f16a64" alt="p2p" onerror="this.style.background='#E1E5F0'"/>
+            <!-- Emily Carter / P2P (warning badge) -->
+            <div class="payee-card">
+              <div class="payee-card-icon" style="position:relative;">
+                <img src="source/icons/p2p.svg" alt="p2p"/>
+                <div class="warning-badge">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="7" fill="#FF8411"/>
+                    <path d="M7 4v3.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+                    <circle cx="7" cy="10" r=".7" fill="#fff"/>
+                  </svg>
+                </div>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name">Emily Carter</div>
                 <div class="payee-card-sub">MilX P2P</div>
               </div>
-              <div class="warning-badge">
-                <img src="https://www.figma.com/api/mcp/asset/7d49cb78-d469-42ef-b677-f1d50af7ef26" alt="warning" onerror="this.innerHTML='⚠️';this.style.fontSize='10px'"/>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
               </div>
             </div>
 
             <!-- Konstantin / Visa -->
             <div class="payee-card">
               <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/cc11373c-be46-4400-b310-7030d7fb7bb1" alt="visa" onerror="this.style.background='#E1E5F0'"/>
+                <img src="source/icons/visa.svg" alt="visa"/>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name">Konstantin Konstantinopolskivskiy</div>
                 <div class="payee-card-sub">9934****0041</div>
+              </div>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
               </div>
             </div>
 
             <!-- Olivia Bennett (invalid) -->
             <div class="payee-card invalid">
               <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/6b29c9c6-2d2f-42c3-b46b-c14f39176b7f" alt="paypal" onerror="this.style.background='#E1E5F0'"/>
+                <img src="source/icons/paypal.svg" alt="paypal"/>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name-row">
-                  <span class="payee-card-name" style="color:var(--black-300)">Olivia Bennett</span>
+                  <span class="payee-card-name">Olivia Bennett</span>
                   <span class="payee-card-not-valid">(Not valid)</span>
                 </div>
                 <div class="payee-card-sub">1992olivia****@gmail.com</div>
+              </div>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
               </div>
             </div>
 
             <!-- Display name -->
             <div class="payee-card">
               <div class="payee-card-icon">
-                <img src="https://www.figma.com/api/mcp/asset/6b29c9c6-2d2f-42c3-b46b-c14f39176b7f" alt="paypal" onerror="this.style.background='#E1E5F0'"/>
+                <img src="source/icons/paypal.svg" alt="paypal"/>
               </div>
               <div class="payee-card-info">
                 <div class="payee-card-name">Display name</div>
                 <div class="payee-card-sub">Number</div>
+              </div>
+              <div class="payee-card-star">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.85 3.75 4.15.6-3 2.93.71 4.13L8 10.27l-3.71 1.95.71-4.13-3-2.93 4.15-.6z"/></svg>
               </div>
             </div>
 
