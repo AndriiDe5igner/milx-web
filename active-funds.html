@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MilX — Active Funds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800;900;1000&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fff;color:#32353D;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* ── TOKENS ── */
+:root{
+  --black-600:#141414;
+  --black-500:#32353D;
+  --black-400:#71778A;
+  --black-300:#979EB8;
+  --black-200:#CFD4E5;
+  --black-100:#E1E5F0;
+  --black-90:#EBEDF5;
+  --black-80:#F0F2F8;
+  --black-60:#F3F3F7;
+  --black-50:#F5F6FA;
+  --black-30:#FCFCFD;
+  --black-0:#FFFFFF;
+  --green-400:#B2F86C;
+  --green-100:#03AD47;
+  --orange-400:#FF8411;
+  --red-375:#FF463B;
+  --r-xl:24px;
+  --r-lg:16px;
+  --r-md:12px;
+  --r-huge:32px;
+}
+
+/* ── HEADER ── */
+.header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:#fff;
+  border-bottom:1px solid var(--black-90);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;
+}
+.header-logo{
+  display:flex;align-items:center;gap:24px;flex-shrink:0;
+  background:#fff;border:1px solid var(--black-100);
+  border-radius:12px;padding:12px 16px;width:240px;
+}
+.header-logo-inner{flex:1;min-width:0;display:flex;align-items:center;}
+.header-logo-inner img{width:82px;height:21px;display:block;object-fit:contain;}
+.header-logo-arrow{width:24px;height:18px;flex-shrink:0;display:block;}
+.header-right{display:flex;align-items:center;gap:16px;}
+.header-icons{display:flex;align-items:center;gap:0;padding-right:24px;}
+.icon-btn{padding:10px;border-radius:70px;cursor:pointer;display:flex;align-items:center;justify-content:center;background:none;border:none;}
+.icon-btn img{width:20px;height:20px;display:block;}
+.wallet-widget{background:var(--black-30);border:1px solid var(--black-90);border-radius:var(--r-md);padding:10px 16px 6px;display:flex;flex-direction:column;flex-shrink:0;}
+.wallet-label{font-size:10px;font-weight:600;color:var(--black-400);text-transform:uppercase;letter-spacing:.8px;line-height:normal;white-space:nowrap;}
+.wallet-amount{font-size:14px;font-weight:600;color:var(--black-500);line-height:24px;white-space:nowrap;}
+.avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+
+/* ── LAYOUT ── */
+.layout{display:flex;margin-top:70px;min-height:calc(100vh - 70px);}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  position:fixed;top:70px;left:0;bottom:0;
+  width:264px;padding:24px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  overflow-y:auto;
+}
+.menu-box{
+  background:#fff;border:1px solid var(--black-90);
+  border-radius:var(--r-xl);padding:8px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  height:698px;
+}
+.menu-list{display:flex;flex-direction:column;gap:8px;}
+.menu-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-radius:var(--r-lg);
+  font-size:12px;font-weight:500;color:var(--black-500);
+  cursor:pointer;transition:background .15s;
+  background:#fff;text-decoration:none;
+}
+.menu-item:hover{background:var(--black-60);}
+.menu-item.active{background:var(--black-60);}
+.menu-item img{width:18px;height:18px;flex-shrink:0;}
+.menu-bottom{display:flex;flex-direction:column;gap:8px;}
+.donate-banner{padding:24px 16px 16px;display:flex;flex-direction:column;gap:16px;}
+.donate-header{display:flex;gap:12px;align-items:center;}
+.donate-emblem{width:32px;height:32px;flex-shrink:0;border-radius:8px;background:var(--black-600);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.donate-emblem img{width:18px;height:18px;}
+.donate-title{font-size:12px;font-weight:600;color:var(--black-500);line-height:16px;}
+.donate-desc{font-size:10px;color:var(--black-400);line-height:14px;}
+.donate-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--black-100);border-radius:50px;
+  padding:8px 16px;cursor:pointer;
+  font-size:11px;font-weight:700;
+  color:var(--black-500);letter-spacing:.44px;text-transform:uppercase;
+  background:#fff;
+}
+.menu-version{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:12px;}
+.menu-version span:first-child{color:var(--black-400);}
+.menu-version span:last-child{color:var(--black-500);}
+
+/* ── MAIN ── */
+.main{margin-left:264px;flex:1;padding:24px 24px 24px 0;min-width:0;max-width:841px;}
+
+/* ── PAGE TITLE ── */
+.page-title{
+  font-family:'Mulish',sans-serif;font-weight:1000;
+  font-size:24px;line-height:32px;letter-spacing:.24px;
+  text-transform:uppercase;color:var(--black-500);
+  margin-bottom:16px;
+}
+
+/* ── AF BALANCE BLOCK ── */
+.af-section{display:flex;flex-direction:column;gap:24px;}
+
+.af-balance-wrap{
+  background:var(--black-60);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  padding:8px;
+}
+.af-balance-card{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:32px;
+  display:flex;gap:24px;align-items:flex-start;
+}
+.af-balance-inner{
+  display:flex;gap:40px;flex:1;align-items:flex-start;min-width:0;
+}
+
+/* ── BALANCE IMAGE (154×154px) ── */
+.af-balance-image{
+  width:154px;height:154px;flex-shrink:0;
+  position:relative;
+}
+
+/* Layer 1: background bear */
+.af-bal-bg{
+  position:absolute;inset:0;overflow:hidden;
+}
+.af-bal-bg img{
+  position:absolute;
+  width:142.72%;height:132.13%;
+  left:-24.01%;top:-14.63%;
+  max-width:none;display:block;
+}
+
+/* Layer 2: milk — mix-blend-mode:lighten */
+.af-bal-milk{
+  position:absolute;
+  top:4.17%;left:4.17%;right:4.17%;bottom:4.17%;
+  mix-blend-mode:lighten;
+}
+/* volume: bottom half of circle */
+.af-bal-milk-vol{
+  position:absolute;
+  top:0.67%;right:0;bottom:-0.33%;left:0;
+  mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cellipse cx='.5' cy='.5' rx='.5' ry='.5' fill='white'/%3E%3C/svg%3E"),
+    linear-gradient(to bottom,transparent 49%,white 49%);
+  -webkit-mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cellipse cx='.5' cy='.5' rx='.5' ry='.5' fill='white'/%3E%3C/svg%3E"),
+    linear-gradient(to bottom,transparent 49%,white 49%);
+  mask-size:100% 100%,100% 100%;
+  -webkit-mask-size:100% 100%,100% 100%;
+  mask-composite:intersect;
+  -webkit-mask-composite:source-in;
+}
+.af-bal-milk-vol img{
+  position:absolute;
+  left:-8.44%;top:-8.44%;
+  width:116.88%;height:116.88%;
+  max-width:none;display:block;
+}
+/* surface: meniscus at midpoint */
+.af-bal-milk-surf{
+  position:absolute;
+  top:35.67%;right:-0.16%;bottom:38.19%;left:0;
+  mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cellipse cx='.5' cy='.5' rx='.5' ry='.5' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cellipse cx='.5' cy='.5' rx='.5' ry='.5' fill='white'/%3E%3C/svg%3E");
+  mask-size:100% 100%;
+  -webkit-mask-size:100% 100%;
+  overflow:hidden;
+}
+.af-bal-milk-surf img{
+  position:absolute;
+  width:108.26%;height:166.67%;
+  left:-4.57%;top:-21.15%;
+  max-width:none;display:block;
+}
+
+/* Layer 3: white ring (inset 8.33%) */
+.af-bal-ring{
+  position:absolute;
+  top:8.33%;left:8.33%;right:8.33%;bottom:8.33%;
+}
+.af-bal-ring>img{
+  position:absolute;inset:0;
+  width:100%;height:100%;display:block;
+}
+
+/* Layer 4: green arc (inset 2.46% inside ring) */
+.af-bal-avail{
+  position:absolute;
+  top:2.46%;left:2.46%;right:2.46%;bottom:2.46%;
+}
+.af-bal-avail svg{
+  position:absolute;
+  inset:0;
+  width:100%;height:100%;display:block;
+  overflow:visible;
+}
+
+.af-balance-content{
+  flex:1;min-width:0;
+  display:flex;flex-direction:column;gap:16px;
+}
+.af-available-label{
+  font-size:14px;font-weight:400;color:var(--black-500);line-height:24px;
+}
+.af-amount-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.af-amount{
+  font-family:'Mulish',sans-serif;font-weight:900;
+  font-size:40px;line-height:56px;color:var(--black-600);
+  white-space:nowrap;
+}
+.af-btns{display:flex;gap:12px;align-items:center;}
+.af-btn-get{
+  background:var(--black-600);color:#fff;
+  border:none;border-radius:var(--r-huge);
+  padding:10px 20px;
+  font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.48px;line-height:20px;
+  cursor:pointer;white-space:nowrap;
+}
+.af-btn-pay{
+  background:transparent;color:var(--black-500);
+  border:1px solid var(--black-200);border-radius:var(--r-huge);
+  padding:10px 20px;
+  font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.48px;line-height:20px;
+  cursor:pointer;white-space:nowrap;
+}
+.af-total{font-size:12px;font-weight:400;color:var(--black-500);line-height:16px;}
+.af-used-funds{display:flex;align-items:center;gap:10px;}
+.af-used-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;
+  background:#fff;border:1px solid var(--black-100);
+}
+.af-used-row{display:flex;align-items:baseline;gap:8px;}
+.af-used-amount{font-size:14px;font-weight:600;color:var(--black-500);line-height:24px;white-space:nowrap;}
+.af-used-label{font-size:14px;font-weight:500;color:var(--black-500);line-height:24px;}
+
+.af-arrow-btn{
+  flex-shrink:0;align-self:flex-start;
+  background:var(--black-60);border:none;border-radius:50px;
+  padding:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.af-arrow-btn img{width:20px;height:20px;display:block;}
+
+/* ── PAYMENTS HISTORY ── */
+.af-history-wrap{
+  background:var(--black-60);
+  border-radius:var(--r-xl);
+  padding:20px 8px 8px;
+}
+.af-history-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px 8px;
+}
+.af-history-title{
+  font-family:'Mulish',sans-serif;font-weight:1000;
+  font-size:18px;line-height:24px;text-transform:uppercase;color:var(--black-500);
+}
+.af-download-btn{
+  background:transparent;border:1px solid var(--black-200);
+  border-radius:var(--r-huge);padding:8px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.af-download-btn img{width:16px;height:16px;display:block;}
+
+/* ── TX LIST (reuse from index) ── */
+.tx-list{display:flex;flex-direction:column;gap:6px;}
+.tx-date-label{font-size:10px;font-weight:400;color:var(--black-400);text-transform:uppercase;line-height:16px;padding:8px 16px 2px;}
+.tx-row{
+  background:var(--black-30);border:1px solid #fff;
+  border-radius:var(--r-lg);
+  display:flex;align-items:flex-start;gap:24px;
+  padding:12px 16px;height:64px;flex-shrink:0;
+}
+.tx-who{display:flex;gap:12px;align-items:flex-start;width:190px;flex-shrink:0;}
+.tx-icon-wrap{display:flex;align-items:center;flex-shrink:0;}
+.tx-icon{width:20px;height:20px;object-fit:contain;border-radius:5px;}
+.tx-name-block{display:flex;flex-direction:column;width:160px;}
+.tx-name{font-size:14px;font-weight:500;color:var(--black-500);line-height:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tx-time{font-size:10px;color:var(--black-400);line-height:16px;}
+.tx-amount-wrap{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex:1;max-width:100px;}
+.tx-amount{font-size:14px;font-weight:500;line-height:24px;white-space:nowrap;text-align:right;}
+.tx-amount.positive{color:var(--green-100);}
+.tx-amount.negative{color:var(--black-500);}
+.tx-amount.failed{color:var(--red-375);}
+.tx-status-icon{width:14px;height:14px;flex-shrink:0;}
+.tx-desc{flex:1;display:flex;flex-direction:column;justify-content:center;padding:5px 0;}
+.tx-desc-text{font-size:12px;color:var(--black-400);line-height:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;height:32px;display:flex;align-items:center;}
+
+/* ── TERMS BAR ── */
+.af-terms{
+  background:#fff;border:1px solid var(--black-90);
+  border-radius:var(--r-lg);
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;
+}
+.af-terms-icon{width:24px;height:24px;flex-shrink:0;display:block;}
+.af-terms-text{font-size:12px;font-weight:400;color:var(--black-400);line-height:16px;}
+.af-terms-text strong{font-weight:400;color:var(--black-500);}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="header">
+  <div class="header-logo">
+    <div class="header-logo-inner">
+      <img src="icons/header-logo.svg" alt="milX"/>
+    </div>
+    <img class="header-logo-arrow" src="icons/header-arrows.svg" alt=""/>
+  </div>
+  <div class="header-right">
+    <div class="header-icons">
+      <button class="icon-btn">
+        <img src="icons/header-bell.svg" alt="notifications"/>
+      </button>
+      <button class="icon-btn">
+        <img src="icons/header-chat.svg" alt="chat"/>
+      </button>
+    </div>
+    <div class="wallet-widget">
+      <span class="wallet-label">My Funds</span>
+      <span class="wallet-amount">$8,000.00</span>
+    </div>
+    <div class="avatar">
+      <img src="icons/header-avatar.png" alt="avatar"/>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="menu-box">
+      <nav class="menu-list">
+        <a href="index.html" class="menu-item">
+          <img src="icons/icon-home.svg" alt=""/>
+          Home
+        </a>
+        <a href="active-funds.html" class="menu-item active">
+          <img src="icons/icon-active-funds.svg" alt=""/>
+          Active Funds
+        </a>
+        <a href="#" class="menu-item">
+          <img src="icons/icon-advanced-funds.svg" alt=""/>
+          Advanced Funds
+        </a>
+        <a href="payments.html" class="menu-item">
+          <img src="icons/icon-payments.svg" alt=""/>
+          Payments
+        </a>
+      </nav>
+
+      <div class="menu-bottom">
+        <div class="donate-banner">
+          <div class="donate-header">
+            <div class="donate-emblem">
+              <img src="source/icons/af-help-icon.png" alt=""/>
+            </div>
+            <div class="donate-title">Have any questions?<br>Visit Help Center</div>
+          </div>
+          <div class="donate-desc">Help Center is your go-to guide, offering answers to all your questions about MilX. Navigate features easily, solve issues, and get support whenever you need it!</div>
+          <button class="donate-btn">VISIT HELP CENTER</button>
+        </div>
+        <div class="menu-version">
+          <span>Version 1.6.12</span>
+          <span>English</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+    <div class="page-title">Active Funds</div>
+
+    <div class="af-section">
+
+      <!-- ── BALANCE CARD ── -->
+      <div class="af-balance-wrap">
+        <div class="af-balance-card">
+          <div class="af-balance-inner">
+            <div class="af-balance-image">
+              <!-- Layer 1: background image -->
+              <div class="af-bal-bg">
+                <img src="source/icons/af-balance-bg.png" alt=""/>
+              </div>
+              <!-- Layer 2: milk (mix-blend-mode:lighten) -->
+              <div class="af-bal-milk">
+                <div class="af-bal-milk-vol">
+                  <img src="source/icons/af-milk-volume.png" alt=""/>
+                </div>
+                <div class="af-bal-milk-surf">
+                  <img src="source/icons/af-milk-surface.png" alt=""/>
+                </div>
+              </div>
+              <!-- Layer 3: white ring -->
+              <div class="af-bal-ring">
+                <img src="source/icons/af-ring.svg" alt=""/>
+                <!-- Layer 4: green arc (dynamic — fills by Available/Total ratio) -->
+                <div class="af-bal-avail">
+                  <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!--
+                      r=33.8 = midpoint of ring (outer r=40, inner r=27.6)
+                      stroke-width=12.4 = ring thickness
+                      circumference ≈ 212.4
+                      stroke-dashoffset = 212.4 × (1 − available/total)
+                      current: $8 000 / $15 000 = 53.3% → offset ≈ 99
+                    -->
+                    <circle
+                      cx="40" cy="40" r="33.8"
+                      stroke="#B2F86C"
+                      stroke-width="12.4"
+                      stroke-linecap="round"
+                      stroke-dasharray="212.4"
+                      stroke-dashoffset="99"
+                      transform="rotate(-90 40 40)"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="af-balance-content">
+            <div>
+              <div class="af-available-label">Available Funds</div>
+              <div class="af-amount-row">
+                <div class="af-amount">$8,000.00</div>
+                <div class="af-btns">
+                  <button class="af-btn-get">GET FUNDS</button>
+                  <button class="af-btn-pay">PAY FUNDS</button>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div class="af-total">Total Active Funds: up to $15,000.00</div>
+              <div class="af-used-funds">
+                <div class="af-used-dot"></div>
+                <div class="af-used-row">
+                  <span class="af-used-amount">$7,000.00</span>
+                  <span class="af-used-label">Used Funds</span>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div><!-- /.af-balance-inner -->
+          <button class="af-arrow-btn">
+            <img src="source/icons/af-arrow.png" alt=""/>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── PAYMENTS HISTORY ── -->
+      <div class="af-history-wrap">
+        <div class="af-history-header">
+          <div class="af-history-title">Payments History</div>
+          <button class="af-download-btn">
+            <img src="source/icons/af-download-icon.png" alt="download"/>
+          </button>
+        </div>
+        <div class="tx-list">
+          <div class="tx-date-label">TODAY</div>
+          <div class="tx-row">
+            <div class="tx-who">
+              <div class="tx-icon-wrap">
+                <img class="tx-icon" src="source/icons/mastercard.svg" alt="mastercard"/>
+              </div>
+              <div class="tx-name-block">
+                <span class="tx-name">James Mitchel</span>
+                <span class="tx-time">9123 **** 1823</span>
+              </div>
+            </div>
+            <div class="tx-amount-wrap">
+              <span class="tx-amount negative">-$7,000.00</span>
+            </div>
+            <div class="tx-desc">
+              <span class="tx-desc-text">Withdrawal of funds from Active Funds to James Mitchel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TERMS ── -->
+      <div class="af-terms">
+        <img class="af-terms-icon" src="source/icons/af-grey-icon.png" alt=""/>
+        <p class="af-terms-text">Read more information about the <strong>Terms and Conditions</strong> of Active Funds</p>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
